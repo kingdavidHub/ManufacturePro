@@ -1,6 +1,7 @@
 import WareHouseChart from "@/components/WareHouseChart";
 import { CalendarDays, Circle, Folder, Truck } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
+import { Progress } from "@/components/ui/progress";
 
 const Dashboard = () => {
   return (
@@ -25,7 +26,7 @@ const Dashboard = () => {
               <Card title="Total Orders" value="100" icon={<Truck />} />
               <Card title="Total Customers" value="1000" icon={<Truck />} />
               <div className="w-[20%]">
-                <div className="border-r p-4 ">
+                <div className="p-4 ">
                   <div className="flex items-center justify-between">
                     <div className="text-2xl font-semibold">100</div>
                     <div className="text-gray-600">
@@ -57,6 +58,39 @@ const Dashboard = () => {
                 fill="#141414"
                 title="WareHouse C"
               />
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div className="py-6 px-4 rounded-sm shadow-md items-center">
+            <h1 className="font-bold mb-2">Stock Levels</h1>
+
+            <div className="flex flex-col gap-4">
+              <div className="w-full">
+                <div className="flex justify-between">
+                  <p>Warehouse A</p>
+                  <p>932</p>
+                  <p className="text-gray-500">65%</p>
+                </div>
+                <Progress color="red" value={65} className="w-full" />
+              </div>
+              <div className="w-full">
+                <div className="flex justify-between">
+                  <p>Warehouse B</p>
+                  <p>452</p>
+                  <p className="text-gray-500">20%</p>
+                </div>
+                <Progress color="red" value={45} className="w-full" />
+              </div>
+              <div className="w-full">
+                <div className="flex justify-between">
+                  <p>Warehouse C</p>
+                  <p>674</p>
+                  <p className="text-gray-500">65%</p>
+                </div>
+                <Progress color="red" value={50} className="w-full" />
+              </div>
             </div>
           </div>
         </section>

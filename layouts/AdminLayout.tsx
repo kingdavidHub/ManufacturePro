@@ -19,9 +19,14 @@ import {
   KeySquare,
   ChevronDown,
   CornerDownRight,
+  Menu,
+  ShoppingCart,
+  Truck,
+  Settings,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { CgProfile } from "react-icons/cg";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [showRide, setShowRide] = useState(false);
@@ -51,7 +56,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                   </div>
                   {/* Dashboard */}
                   <div>
-                    <Link href="/dashboard" className="flex items-center gap-1">
+                    <Link href="/dashboard" className="flex items-center gap-4">
+                      <Menu />
                       <span className="text-sm">Dashboard</span>
                     </Link>
                   </div>
@@ -66,12 +72,23 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     </Link>
                   </div>
                   <div>
-                    <Link href="/orders" className="flex items-center gap-1">
+                    <Link href="/orders" className="flex items-center gap-4">
+                      <ShoppingCart />
                       <span className="text-sm">Orders</span>
                     </Link>
                   </div>
                   <div>
-                    <Link href="/settings" className="flex items-center gap-1">
+                    <Link
+                      href="/deliveries"
+                      className="flex items-center gap-4"
+                    >
+                      <Truck />
+                      <span className="text-sm">Deliveries</span>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link href="/settings" className="flex items-center gap-4">
+                      <Settings />
                       <span className="text-sm">Settings</span>
                     </Link>
                   </div>
@@ -80,23 +97,23 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             </SidebarContent>
             {/* Footer Section */}
             <SidebarFooter>
-              <div className="flex flex-col gap-4">
-                {/* fix colors not working */}
-                <div>
-                  <Link href="/login" className="flex items-center gap-1 ">
-                    <div className="flex items-center gap-1 bg-white rounded-sm">
-                      
-                      <div className="flex flex-col">
-                        <p className="text-sm text-CustomBlack font-semibold">
-                          David Brown
-                        </p>
-                        <p className="text-sm text-CustomBlack font-semibold capitalize">
-                          David Brown
-                        </p>
-                      </div>
-                      <ChevronDown color="#67CA1B" cursor="pointer" />
-                    </div>
-                  </Link>
+              {/* fix colors not working */}
+              <div>
+                <div className="flex justify-between items-center gap-2 w-full ">
+                  <div className="w-[20%]">
+                    <CgProfile size={20} />
+                  </div>
+                  <div className="flex flex-col w-full">
+                    <p className="text-sm text-CustomBlack font-semibold ">
+                      David Brown
+                    </p>
+                    <p className="text-sm text-CustomBlack font-semibold capitalize">
+                      Warehouse Manager
+                    </p>
+                  </div>
+                  <div className="w-[20%]">
+                    <ChevronDown color="#fff" cursor="pointer" />
+                  </div>
                 </div>
               </div>
             </SidebarFooter>
