@@ -1,4 +1,5 @@
 import WareHouseChart from "@/components/WareHouseChart";
+import WareHouseBarChart from "@/components/WareHouseBarChart";
 import { CalendarDays, Circle, Folder, Truck } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import { Progress } from "@/components/ui/progress";
@@ -21,25 +22,40 @@ const Dashboard = () => {
 
         <section>
           <div className="mx-auto">
-            <div className="flex justify-between gap-4 shadow-md p-4 bg-white rounded-md">
-              <Card title="Total Revenue" value="$10,000" icon={<Folder />} />
-              <Card title="Total Orders" value="100" icon={<Truck />} />
+            <div className="flex justify-between gap-4 md:shadow-md p-4 bg-white rounded-md">
+              <Card
+                newClass="hidden md:block"
+                title="Total Revenue"
+                value="83%"
+                icon={<Folder />}
+              />
+              <Card
+                title="Dispatched Shipments"
+                value="2,167"
+                icon={<Truck />}
+              />
               <Card title="Total Customers" value="1000" icon={<Truck />} />
-              <div className="w-[20%]">
-                <div className="p-4 ">
-                  <div className="flex items-center justify-between">
-                    <div className="text-2xl font-semibold">100</div>
+              <div
+                className={`md:w-[25%] shadow-lg md:shadow-none rounded-sm md:rounded-none bg-[#FCFCFC] md:bg-white`}
+              >
+                <div className=" p-4 flex flex-col-reverse md:flex-col items-center md:items-start justify-between gap-2 md:gap-1">
+                  <div className="flex flex-col-reverse md:flex-row items-center w-full justify-between gap-1 md:gap-0">
+                    <div className="text-2xl font-semibold md:flex">
+                      21/04<span className="hidden md:block">/2025</span>
+                    </div>
                     <div className="text-gray-600">
                       <CalendarDays />
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600 mt-2">Total Products</p>
+                  <h2 className="text-sm text-black font-bold md:font-normal md:text-gray-600 mt-2 text-center md:text-right">
+                    Next Shipment
+                  </h2>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        <section>
+        <section className="hidden md:block">
           <div className="flex py-4 px-2 rounded-sm shadow-md items-center">
             <WareHouseChart />
             <div className="flex flex-col gap-4 ml-4">
@@ -94,6 +110,12 @@ const Dashboard = () => {
             </div>
           </div>
         </section>
+
+        <section className="md:hidden">
+          <div className="py-4 px-2 rounded-sm shadow-md items-center">
+            <WareHouseBarChart />
+          </div>
+        </section>
       </div>
     </>
   );
@@ -121,19 +143,25 @@ const Card = ({
   title,
   value,
   icon,
+  newClass,
 }: {
   title: string;
   value: string;
+  newClass?: string;
   icon: React.ReactNode;
 }) => {
   return (
-    <div className="w-[20%]">
-      <div className="border-r border-gray-400 p-4 ">
-        <div className="flex items-center justify-between">
+    <div
+      className={`md:w-[25%] ${newClass} shadow-lg md:shadow-none rounded-sm md:rounded-none bg-[#FCFCFC] md:bg-white `}
+    >
+      <div className="md:border-r border-gray-400 p-4 flex flex-col-reverse md:flex-col items-center md:items-start justify-between gap-2 md:gap-1 ">
+        <div className="flex flex-col-reverse md:flex-row items-center w-full justify-between gap-1 md:gap-0">
           <div className="text-2xl font-semibold">{value}</div>
           <div className="text-gray-600">{icon}</div>
         </div>
-        <p className="text-sm text-gray-600 mt-2">{title}</p>
+        <h2 className="text-sm text-black font-bold md:font-normal md:text-gray-600 mt-2 text-center md:text-right">
+          {title}
+        </h2>
       </div>
     </div>
   );
