@@ -11,7 +11,7 @@ const layout = ({ children }: ChildrenProps) => {
   return (
     <>
       {/* mobile nav menu */}
-      <nav className="md:hidden text-black bg-white p-4">
+      <nav className="lg:hidden text-black bg-white p-4">
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-bold">ManufacturePro</h1>
           <button>

@@ -9,18 +9,6 @@ const Dashboard = () => {
     <>
       <div className="w-full flex flex-col gap-6">
         <section>
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col items-start gap-1">
-              <p>Welcome Back, David</p>
-              <p>Get insights and manage revenue</p>
-            </div>
-            <div>
-              <CgProfile size={40} />
-            </div>
-          </div>
-        </section>
-
-        <section>
           <div className="mx-auto">
             <div className="flex justify-between gap-4 md:shadow-md p-4 bg-white rounded-md">
               <Card

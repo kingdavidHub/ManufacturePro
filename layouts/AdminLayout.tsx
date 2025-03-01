@@ -41,9 +41,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   };
   // className="bg-red-500"
   return (
-    <div className="flex">
+    <div className="flex ">
       {/* Sidebar */}
-      <SidebarProvider>
+      <SidebarProvider className="hidden lg:block">
         <Sidebar>
           {/* Logo Section */}
           <div className="flex flex-col justify-between p-2 h-full ">
@@ -122,7 +122,20 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       </SidebarProvider>
 
       {/* Main Content */}
-      <main className="w-full p-6">{children}</main>
+      <main className="w-full p-6">
+        <section>
+          <div className="flex justify-between items-center">
+            <div className="flex flex-col items-start gap-1">
+              <p>Welcome Back, David</p>
+              <p>Get insights and manage revenue</p>
+            </div>
+            <div>
+              <CgProfile size={40} />
+            </div>
+          </div>
+        </section>
+        {children}
+      </main>
     </div>
   );
 };
