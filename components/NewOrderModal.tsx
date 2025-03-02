@@ -57,7 +57,7 @@ const formSchema = z.object({
   expiryDate: z.date().optional(),
 });
 
-const NewProductModal = () => {
+const NewOrderModal = () => {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -89,7 +89,7 @@ const NewProductModal = () => {
           <DialogHeader>
             <DialogTitle>New Product</DialogTitle>
           </DialogHeader>
-          <NewProductForm form={form} onSubmit={onSubmit} setOpen={setOpen} />
+          <NewOrderForm form={form} onSubmit={onSubmit} setOpen={setOpen} />
         </DialogContent>
       </Dialog>
     );
@@ -105,20 +105,20 @@ const NewProductModal = () => {
           <DrawerTitle>New Product</DrawerTitle>
         </DrawerHeader>
         <div className="px-4">
-          <NewProductForm form={form} onSubmit={onSubmit} setOpen={setOpen} />
+          <NewOrderForm form={form} onSubmit={onSubmit} setOpen={setOpen} />
         </div>
       </DrawerContent>
     </Drawer>
   );
 };
 
-interface NewProductFormProps {
+interface NewOrderFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
   onSubmit: (values: z.infer<typeof formSchema>) => void;
   setOpen: (open: boolean) => void;
 }
 
-function NewProductForm({ form, onSubmit, setOpen }: NewProductFormProps) {
+function NewOrderForm({ form, onSubmit, setOpen }: NewOrderFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -268,4 +268,4 @@ function NewProductForm({ form, onSubmit, setOpen }: NewProductFormProps) {
   );
 }
 
-export default NewProductModal;
+export default NewOrderModal;

@@ -31,6 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import NewProductModal from "@/components/NewProductModal";
+import Link from "next/link";
 
 type Product = {
   id: string;
@@ -135,7 +136,7 @@ export default function ProductsPage() {
               <h2 className="text-lg font-semibold">Product</h2>
             </div>
             <div className="flex items-center space-x-2">
-              <NewProductModal />
+            <Link href={"/products/new"}><Button variant="default">Add Product</Button></Link>
               <Button variant="outline">Download all</Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

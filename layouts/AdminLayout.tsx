@@ -7,6 +7,7 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "@/components/ui/sidebar";
+import { FaCartPlus } from "react-icons/fa";
 import { useContext, useState } from "react";
 import {
   Home,
@@ -62,7 +63,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     </Link>
                   </div>
                   <div>
-                    <Link href="/products" className="flex items-center gap-1">
+                    <Link href="/products/view" className="flex items-center gap-1">
                       <span className="text-sm">Products</span>
                     </Link>
                   </div>
@@ -72,9 +73,15 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     </Link>
                   </div>
                   <div>
-                    <Link href="/orders" className="flex items-center gap-4">
+                    <Link href="/orders/view" className="flex items-center gap-4">
                       <ShoppingCart />
                       <span className="text-sm">Orders</span>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link href="/orders/new" className="flex items-center gap-4">
+                    <FaCartPlus />
+                      <span className="text-sm">New Order</span>
                     </Link>
                   </div>
                   <div>
@@ -125,9 +132,13 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       <main className="w-full p-6">
         <section>
           <div className="flex justify-between items-center">
-            <div className="flex flex-col items-start gap-1">
-              <p>Welcome Back, David</p>
-              <p>Get insights and manage revenue</p>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-lg font-semibold">Welcome Back, David</h2>
+                <p className="text-sm text-muted-foreground">
+                  Get insights and manage revenue
+                </p>
+              </div>
             </div>
             <div>
               <CgProfile size={40} />
