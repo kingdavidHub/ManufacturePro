@@ -50,7 +50,7 @@ const data: Order[] = [
   // Add more sample data as needed
 ]
 
-export const columns: ColumnDef<Order>[] = [
+const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "orderNo",
     header: "Order no.",

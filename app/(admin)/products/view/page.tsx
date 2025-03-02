@@ -54,7 +54,7 @@ const data: Product[] = [
   // Add more sample data as needed
 ];
 
-export const columns: ColumnDef<Product>[] = [
+const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "name",
     header: "Products",
