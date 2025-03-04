@@ -68,11 +68,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     </Link>
                   </div>
                   <div>
-                    <Link href="/reports" className="flex items-center gap-1">
-                      <span className="text-sm">Reports</span>
-                    </Link>
-                  </div>
-                  <div>
                     <Link href="/orders/view" className="flex items-center gap-4">
                       <ShoppingCart />
                       <span className="text-sm">Orders</span>
@@ -91,12 +86,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     >
                       <Truck />
                       <span className="text-sm">Deliveries</span>
-                    </Link>
-                  </div>
-                  <div>
-                    <Link href="/settings" className="flex items-center gap-4">
-                      <Settings />
-                      <span className="text-sm">Settings</span>
                     </Link>
                   </div>
                 </div>

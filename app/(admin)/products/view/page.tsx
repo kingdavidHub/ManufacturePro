@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -30,8 +30,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import NewProductModal from "@/components/NewProductModal";
 import Link from "next/link";
+import axios from "axios";
 
 type Product = {
   id: string;
@@ -107,6 +107,25 @@ export default function ProductsPage() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+
+  useEffect(() => {
+    async function getAllProducts(){
+      // Fetch all products
+      try {
+       const result =  await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          }
+        });
+
+        if(result.status === 200){
+          console.log(result.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, []);
 
   const table = useReactTable({
     data,

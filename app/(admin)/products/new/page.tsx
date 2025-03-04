@@ -1,19 +1,37 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { CalendarIcon } from "lucide-react"
-import { format } from "date-fns"
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import * as z from "zod"
+import { useRouter } from "next/navigation";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import axios from "axios";
 
 const formSchema = z.object({
   productName: z.string().min(1, "Product name is required"),
@@ -23,10 +41,10 @@ const formSchema = z.object({
   quantity: z.string().min(1, "Quantity is required"),
   unit: z.string().min(1, "Unit is required"),
   expiryDate: z.date().optional(),
-})
+});
 
 export default function NewProductPage() {
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,11 +55,17 @@ export default function NewProductPage() {
       quantity: "",
       unit: "",
     },
-  })
+  });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
-    router.push("/products")
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products`, values, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    console.log(values);
+    router.push("/products");
   }
 
   return (
@@ -86,7 +110,11 @@ export default function NewProductPage() {
                     <FormItem>
                       <FormLabel>Buying Price</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter Price" type="number" {...field} />
+                        <Input
+                          placeholder="Enter Price"
+                          type="number"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -98,7 +126,10 @@ export default function NewProductPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Warehouse</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select warehouse" />
@@ -138,7 +169,11 @@ export default function NewProductPage() {
                     <FormItem>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter Quantity" type="number" {...field} />
+                        <Input
+                          placeholder="Enter Quantity"
+                          type="number"
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -157,10 +192,14 @@ export default function NewProductPage() {
                               variant={"outline"}
                               className={cn(
                                 "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground",
+                                !field.value && "text-muted-foreground"
                               )}
                             >
-                              {field.value ? format(field.value, "PPP") : <span>Enter Expiry Date</span>}
+                              {field.value ? (
+                                format(field.value, "PPP")
+                              ) : (
+                                <span>Enter Expiry Date</span>
+                              )}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>
                           </FormControl>
@@ -170,7 +209,9 @@ export default function NewProductPage() {
                             mode="single"
                             selected={field.value}
                             onSelect={field.onChange}
-                            disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
+                            disabled={(date) =>
+                              date < new Date() || date < new Date("1900-01-01")
+                            }
                             initialFocus
                           />
                         </PopoverContent>
@@ -183,7 +224,11 @@ export default function NewProductPage() {
             </div>
 
             <div className="flex justify-end space-x-4 mt-8">
-              <Button type="button" variant="outline" onClick={() => router.push("/products/view")}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.push("/products/view")}
+              >
                 Discard
               </Button>
               <Button type="submit">Add Product</Button>
@@ -192,6 +237,5 @@ export default function NewProductPage() {
         </Form>
       </div>
     </div>
-  )
+  );
 }
-
