@@ -35,11 +35,7 @@ import axios from "axios";
 
 const formSchema = z.object({
   productName: z.string().min(1, "Product name is required"),
-  productId: z.string().min(1, "Product ID is required"),
-  buyingPrice: z.string().min(1, "Buying price is required"),
-  warehouse: z.string().min(1, "Warehouse is required"),
   quantity: z.string().min(1, "Quantity is required"),
-  unit: z.string().min(1, "Unit is required"),
   expiryDate: z.date().optional(),
 });
 
@@ -49,23 +45,26 @@ export default function NewProductPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       productName: "",
-      productId: "",
-      buyingPrice: "",
-      warehouse: "",
       quantity: "",
-      unit: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products`, values, {
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products`, values, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
+      data: {
+        productName: values.productName,
+        quantity: values.quantity,
+      }
     });
-    console.log(values);
-    router.push("/products");
+
+    if(res.status === 200) {
+      console.log("Product added successfully");
+    }
+    // router.push("/products");
   }
 
   return (
@@ -83,62 +82,19 @@ export default function NewProductPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Product Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter Product name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="productId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Product ID</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter Product ID" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="buyingPrice"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Buying Price</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter Price"
-                          type="number"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="warehouse"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Warehouse</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select warehouse" />
+                            <SelectValue placeholder="Select product" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="A">Warehouse A</SelectItem>
-                          <SelectItem value="B">Warehouse B</SelectItem>
-                          <SelectItem value="C">Warehouse C</SelectItem>
+                          <SelectItem value="laptop">Laptop</SelectItem>
+                          <SelectItem value="smartphone">Smartphone</SelectItem>
+                          <SelectItem value="tablet">Tablet</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -149,19 +105,6 @@ export default function NewProductPage() {
 
               {/* Right Column */}
               <div className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="unit"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Unit</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter Unit" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
                 <FormField
                   control={form.control}
                   name="quantity"
@@ -184,7 +127,7 @@ export default function NewProductPage() {
                   name="expiryDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Expiry Date</FormLabel>
+                      <FormLabel>Date Of Production</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>

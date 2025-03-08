@@ -37,7 +37,6 @@ export function LoginForm({
       );
       if (result.status === 200) {
         const { token, role } = result.data.data;
-        console.log(token, role);
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(role));
         router.push("/dashboard");

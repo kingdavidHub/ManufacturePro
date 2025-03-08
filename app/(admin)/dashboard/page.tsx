@@ -108,6 +108,12 @@ const Dashboard = () => {
     </>
   );
 };
+
+
+// we make it such that we check the number of products left after order made in a warehoiuse
+// dyg?
+
+
 export default Dashboard;
 
 const WarehouseContent = ({

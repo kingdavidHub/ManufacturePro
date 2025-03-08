@@ -32,27 +32,16 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import axios from "axios";
+import { Toaster, toast } from "sonner";
 
-type Product = {
+interface Product {
   id: string;
   name: string;
   price: number;
   quantity: string;
   warehouse: string;
   availability: string;
-};
-
-const data: Product[] = [
-  {
-    id: "1",
-    name: "Product 1",
-    price: 43,
-    quantity: "36 packets",
-    warehouse: "B",
-    availability: "In-stock",
-  },
-  // Add more sample data as needed
-];
+}
 
 const columns: ColumnDef<Product>[] = [
   {
@@ -103,32 +92,44 @@ const columns: ColumnDef<Product>[] = [
 ];
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
   useEffect(() => {
-    async function getAllProducts(){
-      // Fetch all products
+    async function getAllProducts() {
+      setIsLoading(true);
       try {
-       const result =  await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        const result = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/orders`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           }
-        });
-
-        if(result.status === 200){
-          console.log(result.data);
+        );
+        if (result.status === 200) {
+          setProducts(result.data.data);
+          toast("Products loaded successfully");
         }
       } catch (error) {
         console.error(error);
+        toast.error("Error loading products", {
+          description: "Please try again later",
+        });
+      } finally {
+        setIsLoading(false);
       }
     }
+
+    getAllProducts();
   }, []);
 
   const table = useReactTable({
-    data,
+    data: products,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -148,6 +149,7 @@ export default function ProductsPage() {
 
   return (
     <div className="flex flex-col h-full mt-4">
+      <Toaster />
       <div className="border-b">
         <div className="flex h-16 items-center">
           <div className="flex flex-col sm:flex-row items-start flex-1 sm:items-center justify-between gap-2 pb-4">
@@ -155,7 +157,9 @@ export default function ProductsPage() {
               <h2 className="text-lg font-semibold">Product</h2>
             </div>
             <div className="flex items-center space-x-2">
-            <Link href={"/products/new"}><Button variant="default">Add Product</Button></Link>
+              <Link href={"/products/new"}>
+                <Button variant="default">Add Product</Button>
+              </Link>
               <Button variant="outline">Download all</Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
