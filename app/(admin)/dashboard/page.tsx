@@ -1,7 +1,6 @@
 import WareHouseChart from "@/components/WareHouseChart";
 import WareHouseBarChart from "@/components/WareHouseBarChart";
 import { CalendarDays, Circle, Folder, Truck } from "lucide-react";
-import { CgProfile } from "react-icons/cg";
 import { Progress } from "@/components/ui/progress";
 
 const Dashboard = () => {

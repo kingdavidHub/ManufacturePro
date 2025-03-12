@@ -28,6 +28,8 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
+import { MdProductionQuantityLimits } from "react-icons/md";
+import { RiApps2AddFill } from "react-icons/ri";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const [showRide, setShowRide] = useState(false);
@@ -63,19 +65,38 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     </Link>
                   </div>
                   <div>
-                    <Link href="/products/view" className="flex items-center gap-1">
+                    <Link
+                      href="/products/view"
+                      className="flex items-center gap-4"
+                    >
+                      <MdProductionQuantityLimits size={20}/>
                       <span className="text-sm">Products</span>
                     </Link>
                   </div>
                   <div>
-                    <Link href="/orders/view" className="flex items-center gap-4">
+                    <Link
+                      href="/products/new"
+                      className="flex items-center gap-4"
+                    >
+                      <RiApps2AddFill size={20}/>
+                      <span className="text-sm">New Products</span>
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      href="/orders/view"
+                      className="flex items-center gap-4"
+                    >
                       <ShoppingCart />
                       <span className="text-sm">Orders</span>
                     </Link>
                   </div>
                   <div>
-                    <Link href="/orders/new" className="flex items-center gap-4">
-                    <FaCartPlus />
+                    <Link
+                      href="/orders/new"
+                      className="flex items-center gap-4"
+                    >
+                      <FaCartPlus size={20} />
                       <span className="text-sm">New Order</span>
                     </Link>
                   </div>

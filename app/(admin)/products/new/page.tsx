@@ -34,37 +34,49 @@ import {
 import axios from "axios";
 
 const formSchema = z.object({
-  productName: z.string().min(1, "Product name is required"),
-  quantity: z.string().min(1, "Quantity is required"),
+  products: z.array(
+    z.object({
+      product_name: z.string().min(1, "Product name is required"),
+      product_amount: z.string().min(1, "Quantity is required"),
+    })
+  ),
   expiryDate: z.date().optional(),
 });
 
 export default function NewProductPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
     defaultValues: {
-      productName: "",
-      quantity: "",
-    },
+      products: [
+        {
+          product_name: "",
+          product_amount: "",
+        },
+      ],
+      expiryDate: undefined,
+    }
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products`, values, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      data: {
-        productName: values.productName,
-        quantity: values.quantity,
-      }
-    });
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/productions`,
+        values,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-    if(res.status === 200) {
-      console.log("Product added successfully");
+      if (res.status === 201) {
+        console.log("Production added successfully");
+        router.push("/products/view");
+      }
+    } catch (error) {
+      console.error("Error creating production:", error);
     }
-    // router.push("/products");
   }
 
   return (
@@ -78,7 +90,7 @@ export default function NewProductPage() {
               <div className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="productName"
+                  name="products.0.product_name"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Product Name</FormLabel>
@@ -92,9 +104,8 @@ export default function NewProductPage() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="laptop">Laptop</SelectItem>
-                          <SelectItem value="smartphone">Smartphone</SelectItem>
-                          <SelectItem value="tablet">Tablet</SelectItem>
+                          <SelectItem value="TABLE">TABLE</SelectItem>
+                          <SelectItem value="CHAIR">CHAIR</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -107,14 +118,14 @@ export default function NewProductPage() {
               <div className="space-y-6">
                 <FormField
                   control={form.control}
-                  name="quantity"
+                  name="products.0.product_amount"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Quantity</FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter Quantity"
-                          type="number"
+                          type="string"
                           {...field}
                         />
                       </FormControl>
