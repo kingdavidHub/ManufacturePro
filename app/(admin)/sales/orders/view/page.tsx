@@ -16,6 +16,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Filter } from "lucide-react";
+import { getCookie } from "cookies-next";
+
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -158,7 +160,7 @@ export default function OrdersPage() {
         `${process.env.NEXT_PUBLIC_API_URL}/orders?page=${page}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${getCookie("token")}`,
           },
         }
       );

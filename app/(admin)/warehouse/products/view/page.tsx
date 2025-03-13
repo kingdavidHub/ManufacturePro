@@ -33,6 +33,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getCookie } from "cookies-next";
 import NewOrderModal from "@/components/NewOrderModal";
 
 interface Order {
@@ -157,7 +158,7 @@ export default function OrdersPage() {
         `${process.env.NEXT_PUBLIC_API_URL}/orders?page=${page}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${getCookie("token")}`,
           },
         }
       );
@@ -183,7 +184,7 @@ export default function OrdersPage() {
         `${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${getCookie("token")}`,
           },
         }
       );

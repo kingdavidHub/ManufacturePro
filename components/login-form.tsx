@@ -7,8 +7,9 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
-import { PacmanLoader }from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
 
 type FormData = {
   email: string;
@@ -37,9 +38,27 @@ export function LoginForm({
       );
       if (result.status === 200) {
         const { token, role } = result.data.data;
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(role));
-        router.push("/dashboard");
+
+        // Set cookies instead of localStorage
+        setCookie("token", token, {
+          maxAge: 30 * 24 * 60 * 60, // 30 days
+          path: "/",
+          // secure: process.env.NODE_ENV === "production",
+          // sameSite: "strict",
+        });
+
+        setCookie("role", role, {
+          maxAge: 30 * 24 * 60 * 60, // 30 days
+          path: "/",
+          // secure: process.env.NODE_ENV === "production",
+          // sameSite: "strict",
+        });
+
+        if (role === "WAREHOUSE_MANAGER") {
+          router.push("/warehouse/dashboard");
+        } else if (role === "SALES_REP") {
+          router.push("/sales/dashboard");
+        }
 
         setLoading(false);
       }
@@ -87,14 +106,9 @@ export function LoginForm({
           />
         </div>
         <Button type="submit" className="w-full">
-          {loading ? (
-            <PacmanLoader color="#fff" size={10} />
-          ) : (
-            "Login"
-          )}
+          {loading ? <PacmanLoader color="#fff" size={10} /> : "Login"}
         </Button>
-        <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-        </div>
+        <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border"></div>
       </div>
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
@@ -105,4 +119,3 @@ export function LoginForm({
     </form>
   );
 }
-

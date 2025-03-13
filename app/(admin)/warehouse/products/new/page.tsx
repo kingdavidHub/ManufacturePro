@@ -31,6 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getCookie } from "cookies-next";
 import axios from "axios";
 
 const formSchema = z.object({
@@ -65,7 +66,7 @@ export default function NewProductPage() {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${getCookie("token")}`,
           },
         }
       );

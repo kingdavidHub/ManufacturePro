@@ -8,32 +8,28 @@ import {
   SidebarContent,
 } from "@/components/ui/sidebar";
 import { FaCartPlus } from "react-icons/fa";
-import { useContext, useState } from "react";
-import {
-  Home,
-  LifeBuoy,
-  CarFront,
-  ChartSpline,
-  FolderClosed,
-  MessageSquare,
-  UserCog,
-  KeySquare,
-  ChevronDown,
-  CornerDownRight,
-  Menu,
-  ShoppingCart,
-  Truck,
-  Settings,
-} from "lucide-react";
+import { useContext, useState, useEffect } from "react";
+import { ChevronDown, Menu, ShoppingCart, Truck } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { CgProfile } from "react-icons/cg";
 import { MdProductionQuantityLimits } from "react-icons/md";
 import { RiApps2AddFill } from "react-icons/ri";
+import { RoleProps } from "@/types";
+import { getCookie, deleteCookie } from "cookies-next";
+import { LuLogOut } from "react-icons/lu";
+import { useRouter } from "next/navigation";
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+  const [role, setRole] = useState<RoleProps | null>(null);
   const [showRide, setShowRide] = useState(false);
   const [showUser, setShowUser] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const userRole = getCookie("role") as RoleProps;
+    setRole(userRole);
+  }, []);
 
   const handleUserClick = () => {
     setShowUser((prev) => !prev);
@@ -42,7 +38,21 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   const handleRideClick = () => {
     setShowRide((prev) => !prev);
   };
-  // className="bg-red-500"
+
+  const handleLogout = () => {
+    try {
+      // Remove cookies
+      deleteCookie("token");
+      deleteCookie("user");
+      deleteCookie("role");
+
+      // Redirect to login
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <div className="flex ">
       {/* Sidebar */}
@@ -59,47 +69,62 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                   </div>
                   {/* Dashboard */}
                   <div>
-                    <Link href="/dashboard" className="flex items-center gap-4">
+                    <Link
+                      href={
+                        role === "WAREHOUSE_MANAGER"
+                          ? "/warehouse/dashboard"
+                          : "/sales/dashboard"
+                      }
+                      className="flex items-center gap-4"
+                    >
                       <Menu />
                       <span className="text-sm">Dashboard</span>
                     </Link>
                   </div>
-                  <div>
-                    <Link
-                      href="/products/view"
-                      className="flex items-center gap-4"
-                    >
-                      <MdProductionQuantityLimits size={20}/>
-                      <span className="text-sm">Products</span>
-                    </Link>
-                  </div>
-                  <div>
-                    <Link
-                      href="/products/new"
-                      className="flex items-center gap-4"
-                    >
-                      <RiApps2AddFill size={20}/>
-                      <span className="text-sm">New Products</span>
-                    </Link>
-                  </div>
-                  <div>
-                    <Link
-                      href="/orders/view"
-                      className="flex items-center gap-4"
-                    >
-                      <ShoppingCart />
-                      <span className="text-sm">Orders</span>
-                    </Link>
-                  </div>
-                  <div>
-                    <Link
-                      href="/orders/new"
-                      className="flex items-center gap-4"
-                    >
-                      <FaCartPlus size={20} />
-                      <span className="text-sm">New Order</span>
-                    </Link>
-                  </div>
+                  {role === "WAREHOUSE_MANAGER" ? (
+                    <>
+                      <div>
+                        <Link
+                          href="warehouse/products/view"
+                          className="flex items-center gap-4"
+                        >
+                          <MdProductionQuantityLimits size={20} />
+                          <span className="text-sm">Products</span>
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          href="warehouse/products/new"
+                          className="flex items-center gap-4"
+                        >
+                          <RiApps2AddFill size={20} />
+                          <span className="text-sm">New Products</span>
+                        </Link>
+                      </div>
+                    </>
+                  ) : null}
+                  {role === "SALES_REP" ? (
+                    <>
+                      <div>
+                        <Link
+                          href="/sales/orders/view"
+                          className="flex items-center gap-4"
+                        >
+                          <ShoppingCart />
+                          <span className="text-sm">Orders</span>
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          href="/sales/orders/new"
+                          className="flex items-center gap-4"
+                        >
+                          <FaCartPlus size={20} />
+                          <span className="text-sm">New Order</span>
+                        </Link>
+                      </div>
+                    </>
+                  ) : null}
                   <div>
                     <Link
                       href="/deliveries"
@@ -125,11 +150,20 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       David Brown
                     </p>
                     <p className="text-sm text-CustomBlack font-semibold capitalize">
-                      Warehouse Manager
+                      {role === "WAREHOUSE_MANAGER"
+                        ? "Warehouse Manager"
+                        : role === "SALES_REP"
+                        ? "Sales Rep"
+                        : "Admin"}
                     </p>
                   </div>
                   <div className="w-[20%]">
-                    <ChevronDown color="#fff" cursor="pointer" />
+                    <LuLogOut
+                      size={30}
+                      color="#fff"
+                      cursor="pointer"
+                      onClick={handleLogout}
+                    />
                   </div>
                 </div>
               </div>
