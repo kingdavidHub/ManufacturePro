@@ -11,9 +11,9 @@ export function middleware(request: NextRequest) {
   // Check if user is trying to access login page
   if (path === "/login") {
     if (token) {
-      if (role === "WAREHOUSE_MANAGER") {
+      if (role === "PRODUCTION_MANAGER") {
         return NextResponse.redirect(
-          new URL("/warehouse/dashboard", request.url)
+          new URL("/production/dashboard", request.url)
         );
       }
 
@@ -31,7 +31,7 @@ export function middleware(request: NextRequest) {
     }
 
     // Prevent SALES_REP from accessing warehouse dashboard
-    if (path.includes("/warehouse") && role !== "WAREHOUSE_MANAGER") {
+    if (path.includes("/production") && role !== "PRODUCTION_MANAGER") {
       return NextResponse.redirect(new URL("/sales/dashboard", request.url));
     }
 

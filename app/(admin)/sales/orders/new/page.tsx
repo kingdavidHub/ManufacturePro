@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getCookie } from "cookies-next";
+import { SALES_API } from "@/config";
 
 const formSchema = z.object({
   customerName: z.string().min(1, "Customer name is required"),
@@ -53,7 +54,7 @@ export default function NewOrderPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/orders`,
+        `${SALES_API}`,
         values,
         {
           headers: {
@@ -173,7 +174,7 @@ export default function NewOrderPage() {
                         </FormControl>
                         <SelectContent>
                           <SelectItem value="NextGen">NextGen</SelectItem>
-                          <SelectItem value="Stockpil">Stockpil</SelectItem>
+                          <SelectItem value="SwiftStock">SwiftStock</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />

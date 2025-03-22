@@ -18,7 +18,6 @@ import {
 import { Filter } from "lucide-react";
 import { getCookie } from "cookies-next";
 
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -36,6 +35,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import NewOrderModal from "@/components/NewOrderModal";
+import { PRODUCTION_API, SALES_API } from "@/config";
 
 interface Order {
   id: string;
@@ -69,6 +69,9 @@ const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "id",
     header: "Order no.",
+    cell: ({ row }) => {
+      return <div>{row.index + 1}</div>;
+    },
   },
   {
     accessorKey: "customerName",
@@ -119,6 +122,7 @@ const columns: ColumnDef<Order>[] = [
       const { handleCancelOrder } = table.options.meta as {
         handleCancelOrder: (orderId: string) => Promise<void>;
       };
+      
 
       return (
         <div className="flex items-center gap-2">
@@ -143,6 +147,8 @@ const columns: ColumnDef<Order>[] = [
   },
 ];
 
+
+
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -157,7 +163,7 @@ export default function OrdersPage() {
     setIsLoading(true);
     try {
       const result = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/orders?page=${page}`,
+        `${PRODUCTION_API}?page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${getCookie("token")}`,
@@ -183,10 +189,10 @@ export default function OrdersPage() {
   const handleCancelOrder = async (orderId: string) => {
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`,
+        `${SALES_API}/${orderId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${getCookie("token")}`,
           },
         }
       );
@@ -248,7 +254,7 @@ export default function OrdersPage() {
                   {table
                     .getAllColumns()
                     .filter((column) => column.getCanHide())
-                    .map((column) => {
+                    .map((column, index) => {
                       return (
                         <DropdownMenuItem
                           key={column.id}

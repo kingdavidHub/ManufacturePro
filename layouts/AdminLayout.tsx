@@ -73,6 +73,8 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       href={
                         role === "WAREHOUSE_MANAGER"
                           ? "/warehouse/dashboard"
+                          : role === "PRODUCTION_MANAGER"
+                          ? "/production/dashboard"
                           : "/sales/dashboard"
                       }
                       className="flex items-center gap-4"
@@ -81,11 +83,11 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       <span className="text-sm">Dashboard</span>
                     </Link>
                   </div>
-                  {role === "WAREHOUSE_MANAGER" ? (
+                  {role === "PRODUCTION_MANAGER" ? (
                     <>
                       <div>
                         <Link
-                          href="warehouse/products/view"
+                          href="/production/view"
                           className="flex items-center gap-4"
                         >
                           <MdProductionQuantityLimits size={20} />
@@ -94,7 +96,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       </div>
                       <div>
                         <Link
-                          href="warehouse/products/new"
+                          href="/production/new"
                           className="flex items-center gap-4"
                         >
                           <RiApps2AddFill size={20} />
