@@ -20,6 +20,10 @@ export function middleware(request: NextRequest) {
       if (role === "SALES_REP") {
         return NextResponse.redirect(new URL("/sales/dashboard", request.url));
       }
+
+      if (role === "WAREHOUSE_MANAGER") {
+        return NextResponse.redirect(new URL("/warehouse/dashboard", request.url));
+      }
     }
     return NextResponse.next();
   }

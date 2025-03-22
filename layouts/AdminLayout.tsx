@@ -127,6 +127,28 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       </div>
                     </>
                   ) : null}
+                  {role === "WAREHOUSE_MANAGER" ? (
+                    <>
+                      {/* <div>
+                        <Link
+                          href="/warehouse/products"
+                          className="flex items-center gap-4"
+                        >
+                          <ShoppingCart />
+                          <span className="text-sm">Orders</span>
+                        </Link>
+                      </div> */}
+                      <div>
+                        <Link
+                          href="/warehouse/new"
+                          className="flex items-center gap-4"
+                        >
+                          <FaCartPlus size={20} />
+                          <span className="text-sm">New Warehouse</span>
+                        </Link>
+                      </div>
+                    </>
+                  ) : null}
                   <div>
                     <Link
                       href="/deliveries"
