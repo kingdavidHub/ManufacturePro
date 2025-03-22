@@ -35,7 +35,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import NewOrderModal from "@/components/NewOrderModal";
-import { PRODUCTION_API, SALES_API } from "@/config";
+import {  SALES_API } from "@/config";
 
 interface Order {
   id: string;
@@ -163,7 +163,7 @@ export default function OrdersPage() {
     setIsLoading(true);
     try {
       const result = await axios.get(
-        `${PRODUCTION_API}?page=${page}`,
+        `${SALES_API}?page=${page}`,
         {
           headers: {
             Authorization: `Bearer ${getCookie("token")}`,
