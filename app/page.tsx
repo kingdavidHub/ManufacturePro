@@ -32,6 +32,12 @@ export default function Home() {
             >
               Contact
             </Link>
+            <Link
+              href="/login"
+              className="text-sm font-medium hover:underline underline-offset-4"
+            >
+              Login
+            </Link>
           </nav>
         </div>
       </header>
