@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios"; // Add AxiosError import
 import { Toaster, toast } from "sonner";
+import { z } from "zod";
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -17,6 +18,7 @@ import {
 } from "@tanstack/react-table";
 import { Filter } from "lucide-react";
 import { getCookie } from "cookies-next";
+import { useRouter } from "next/router"; // Import useRouter
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,7 +36,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import NewOrderModal from "@/components/NewOrderModal";
 import { PRODUCTION_API, SALES_API } from "@/config";
 
 interface Order {
@@ -69,9 +70,7 @@ const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "id",
     header: "Order no.",
-    cell: ({ row }) => {
-      return <div>{row.index + 1}</div>;
-    },
+    cell: ({ row }) => <div>{row.index + 1}</div>,
   },
   {
     accessorKey: "customerName",
@@ -84,16 +83,12 @@ const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "createdAt",
     header: "Date",
-    cell: ({ row }) => {
-      return new Date(row.getValue("createdAt")).toLocaleDateString();
-    },
+    cell: ({ row }) => new Date(row.getValue("createdAt")).toLocaleDateString(),
   },
   {
     accessorKey: "updatedAt",
     header: "Due Date",
-    cell: ({ row }) => {
-      return new Date(row.getValue("updatedAt")).toLocaleDateString();
-    },
+    cell: ({ row }) => new Date(row.getValue("updatedAt")).toLocaleDateString(),
   },
   {
     accessorKey: "status",
@@ -118,11 +113,9 @@ const columns: ColumnDef<Order>[] = [
     id: "actions",
     cell: ({ row, table }) => {
       const order = row.original;
-      // Get the handleCancelOrder from table options
       const { handleCancelOrder } = table.options.meta as {
         handleCancelOrder: (orderId: string) => Promise<void>;
       };
-      
 
       return (
         <div className="flex items-center gap-2">
@@ -147,8 +140,6 @@ const columns: ColumnDef<Order>[] = [
   },
 ];
 
-
-
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -158,18 +149,16 @@ export default function OrdersPage() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const router = useRouter(); // Initialize router
 
   const fetchOrders = async () => {
     setIsLoading(true);
     try {
-      const result = await axios.get(
-        `${PRODUCTION_API}?page=${page}`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
+      const result = await axios.get(`${PRODUCTION_API}?page=${page}`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      });
       if (result.status === 200) {
         const data = result.data.data as OrderResponse;
         setOrders(data.orders);
@@ -188,14 +177,11 @@ export default function OrdersPage() {
 
   const handleCancelOrder = async (orderId: string) => {
     try {
-      await axios.delete(
-        `${SALES_API}/${orderId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
+      await axios.delete(`${SALES_API}/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      });
       toast.success("Order cancelled successfully");
       await fetchOrders(); // Refresh the orders list after deletion
     } catch (error) {
@@ -203,6 +189,44 @@ export default function OrdersPage() {
       toast.error("Error cancelling order", {
         description: "Please try again later",
       });
+    }
+  };
+
+  // Define the form schema
+  const formSchema = z.object({
+    customerName: z.string(),
+    customerAddress: z.string(),
+    product: z.string(),
+    amount: z.number(),
+    warehouseId: z.string(),
+  });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const [loading, setLoading] = useState(false); // Move this outside of the function
+    setLoading(true);
+    try {
+      const res = await axios.post(PRODUCTION_API, values, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      });
+
+      if (res.status === 201) {
+        toast.success("Products added successfully");
+        router.push("/production/view");
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response?.data || error.message);
+        const errorMessage =
+          error.response?.data?.message || "Failed to add products";
+        toast.error(errorMessage);
+      } else {
+        console.error("Error creating products:", error);
+        toast.error("Failed to add products");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -254,19 +278,17 @@ export default function OrdersPage() {
                   {table
                     .getAllColumns()
                     .filter((column) => column.getCanHide())
-                    .map((column, index) => {
-                      return (
-                        <DropdownMenuItem
-                          key={column.id}
-                          className="capitalize"
-                          onClick={() =>
-                            column.toggleVisibility(!column.getIsVisible())
-                          }
-                        >
-                          {column.id}
-                        </DropdownMenuItem>
-                      );
-                    })}
+                    .map((column) => (
+                      <DropdownMenuItem
+                        key={column.id}
+                        className="capitalize"
+                        onClick={() =>
+                          column.toggleVisibility(!column.getIsVisible())
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuItem>
+                    ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

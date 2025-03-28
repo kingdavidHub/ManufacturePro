@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react"; // Added useCallback
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import {
@@ -110,11 +110,8 @@ export default function ProductionDashboardPage() {
     warehouses.find((w) => w.warehouse_id === selectedWarehouseId)
       ?.distributions || [];
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  // Use useCallback to memoize the fetchDashboardData function
+  const fetchDashboardData = useCallback(async () => {
     setIsLoading(true);
     try {
       const result = await axios.get(`${PRODUCTION_API}/dashboard`, {
@@ -142,7 +139,12 @@ export default function ProductionDashboardPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [selectedWarehouseId]); // Add selectedWarehouseId as dependency
+
+  // Update useEffect to include fetchDashboardData in dependency array
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   const table = useReactTable({
     data: selectedDistributions,

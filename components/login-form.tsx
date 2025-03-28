@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import axios, { AxiosError } from "axios"; // Import AxiosError
 import { useState } from "react";
 import { PacmanLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
@@ -58,8 +58,15 @@ export function LoginForm({
           router.push("/production/dashboard");
         }
       }
-    } catch (error: any) {
-      const errorMsg = error.response?.data?.message || "Login failed";
+    } catch (error: unknown) {
+      // Use unknown instead of any and then check type
+      let errorMsg = "Login failed";
+
+      if (axios.isAxiosError(error)) {
+        // Now TypeScript knows this is an AxiosError
+        errorMsg = error.response?.data?.message || "Login failed";
+      }
+
       toast.error(errorMsg);
       console.error(error);
     } finally {

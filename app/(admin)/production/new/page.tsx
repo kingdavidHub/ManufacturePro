@@ -33,7 +33,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getCookie } from "cookies-next";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { ClipLoader, ScaleLoader } from "react-spinners";
 import { useState } from "react";
@@ -77,13 +77,20 @@ export default function NewProductPage() {
       });
 
       if (res.status === 201) {
-        setLoading(false);
         toast.success("Products added successfully");
         router.push("/production/view");
       }
-    } catch (error) {
-      console.error("Error creating products:", error);
-      toast.error("Failed to add products");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response?.data || error.message);
+
+        const errorMessage =
+          error.response?.data?.message || "Failed to add products";
+        toast.error(errorMessage);
+      } else {
+        console.error("Error creating products:", error);
+        toast.error("Failed to add products");
+      }
     } finally {
       setLoading(false);
     }
