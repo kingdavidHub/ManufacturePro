@@ -103,6 +103,24 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                           <span className="text-sm">New Products</span>
                         </Link>
                       </div>
+                      <div>
+                        <Link
+                          href="/production/distribute"
+                          className="flex items-center gap-4"
+                        >
+                          <RiApps2AddFill size={20} />
+                          <span className="text-sm">Distribute Products</span>
+                        </Link>
+                      </div>
+                      <div>
+                        <Link
+                          href="/production/production-dashboard"
+                          className="flex items-center gap-4"
+                        >
+                          <RiApps2AddFill size={20} />
+                          <span className="text-sm">Production Dashboard</span>
+                        </Link>
+                      </div>
                     </>
                   ) : null}
                   {role === "SALES_REP" ? (

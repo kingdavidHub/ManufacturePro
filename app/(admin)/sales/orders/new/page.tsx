@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { Loader2 } from "lucide-react";
+import { toast, Toaster } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -35,11 +36,13 @@ const formSchema = z.object({
   customerAddress: z.string().min(1, "Customer address is required"),
   product: z.string().min(1, "Product is required"),
   amount: z.number().min(1, "Amount must be greater than 0"),
-  warehouseName: z.string().min(1, "Warehouse is required"),
+  warehouseName: z.string().min(1, "Warehouse is required"), 
 });
 
 export default function NewOrderPage() {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,32 +50,63 @@ export default function NewOrderPage() {
       customerAddress: "",
       product: "",
       amount: 0,
-      warehouseName: "",
+      warehouseName: "", 
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
     try {
-      const response = await axios.post(
-        `${SALES_API}`,
-        values,
-        {
-          headers: {
-            Authorization: `Bearer ${getCookie("token")}`,
-          },
-        }
-      );
+      const response = await axios.post(`${SALES_API}`, values, {
+        headers: {
+          Authorization: `Bearer ${getCookie("token")}`,
+        },
+      });
 
       if (response.status === 201) {
-        router.push("/sales/orders/view");
+        toast.success("Order created successfully");
+        setTimeout(() => {
+          router.push("/sales/orders/view");
+        }, 1000); // Wait for toast to show
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      console.error("Order creation error:", error);
+      // Log the full error structure for debugging
+      console.log("Error response:", error.response);
+
+      // More robust error handling
+      if (error.response) {
+        if (error.response.status === 400) {
+          toast.error("Order Failed", {
+            description:
+              error.response.data?.message || "Failed to create order",
+          });
+        } else if (error.response.status === 500) {
+          toast.error("Server Error", {
+            description:
+              "The server encountered an error. Please try again later.",
+          });
+        } else {
+          toast.error("Order Failed", {
+            description:
+              error.response.data?.message || "An unexpected error occurred",
+          });
+        }
+      } else {
+        // Network error or other issues
+        toast.error("Connection Error", {
+          description: "Please check your connection and try again",
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
   return (
     <div className="container mx-auto p-6">
+      <Toaster />
+
       <div className="bg-background rounded-lg p-6">
         <h3 className="text-lg font-semibold mb-6">New Order</h3>
         <Form {...form}>
@@ -176,6 +210,9 @@ export default function NewOrderPage() {
                         <SelectContent>
                           <SelectItem value="NextGen">NextGen</SelectItem>
                           <SelectItem value="SwiftStock">SwiftStock</SelectItem>
+                          <SelectItem value="PrimeStorage">
+                            PrimeStorage
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -190,10 +227,20 @@ export default function NewOrderPage() {
                 type="button"
                 variant="outline"
                 onClick={() => router.push("/sales/orders/view")}
+                disabled={isSubmitting}
               >
                 Discard
               </Button>
-              <Button type="submit">Create Order</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  "Create Order"
+                )}
+              </Button>
             </div>
           </form>
         </Form>

@@ -56,6 +56,11 @@ const UniqueDashboard = () => {
                 fill="#363636"
                 title="SwiftStock"
               />
+              <WarehouseContent
+                color="#363636"
+                fill="#363636"
+                title="PrimeStorage"
+              />
             </div>
           </div>
         </section>
@@ -77,6 +82,14 @@ const UniqueDashboard = () => {
                 <div className="flex justify-between">
                   <p>SwiftStock</p>
                   <p>452</p>
+                  <p className="text-gray-500">20%</p>
+                </div>
+                <Progress color="red" value={45} className="w-full" />
+              </div>
+              <div className="w-full">
+                <div className="flex justify-between">
+                  <p>PrimeStorage</p>
+                  <p>252</p>
                   <p className="text-gray-500">20%</p>
                 </div>
                 <Progress color="red" value={45} className="w-full" />
