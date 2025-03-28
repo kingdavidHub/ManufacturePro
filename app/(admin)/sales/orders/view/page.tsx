@@ -244,7 +244,7 @@ export default function OrdersPage() {
             </div>
             <div className="flex items-center space-x-2">
               <Button variant="outline">Download all</Button>
-              <DropdownMenu>
+              {/* <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="icon">
                     <Filter className="h-4 w-4" />
@@ -268,7 +268,7 @@ export default function OrdersPage() {
                       );
                     })}
                 </DropdownMenuContent>
-              </DropdownMenu>
+              </DropdownMenu> */}
             </div>
           </div>
         </div>

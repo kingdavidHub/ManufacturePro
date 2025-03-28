@@ -14,74 +14,74 @@ import {
 const chartData = [
   {
     name: "Jan",
-    wareHouse1: 450,
-    wareHouse2: 650,
+    NextGen: 450,
+    SwiftStock: 650,
     wareHouse3: 800,
   },
   {
     name: "Feb",
-    wareHouse1: 550,
-    wareHouse2: 750,
+    NextGen: 550,
+    SwiftStock: 750,
     wareHouse3: 900,
   },
   {
     name: "Mar",
-    wareHouse1: 350,
-    wareHouse2: 850,
+    NextGen: 350,
+    SwiftStock: 850,
     wareHouse3: 650,
   },
   {
     name: "Apr",
-    wareHouse1: 650,
-    wareHouse2: 450,
+    NextGen: 650,
+    SwiftStock: 450,
     wareHouse3: 750,
   },
   {
     name: "May",
-    wareHouse1: 750,
-    wareHouse2: 550,
+    NextGen: 750,
+    SwiftStock: 550,
     wareHouse3: 850,
   },
   {
     name: "Jun",
-    wareHouse1: 850,
-    wareHouse2: 650,
+    NextGen: 850,
+    SwiftStock: 650,
     wareHouse3: 450,
   },
   {
     name: "Jul",
-    wareHouse1: 950,
-    wareHouse2: 750,
+    NextGen: 950,
+    SwiftStock: 750,
     wareHouse3: 550,
   },
   {
     name: "Aug",
-    wareHouse1: 850,
-    wareHouse2: 850,
+    NextGen: 850,
+    SwiftStock: 850,
     wareHouse3: 650,
   },
   {
     name: "Sep",
-    wareHouse1: 750,
-    wareHouse2: 950,
+    NextGen: 750,
+    SwiftStock: 950,
     wareHouse3: 750,
   },
   {
     name: "Oct",
-    wareHouse1: 650,
-    wareHouse2: 850,
+    NextGen: 650,
+    SwiftStock: 850,
     wareHouse3: 850,
   },
   {
     name: "Nov",
-    wareHouse1: 550,
-    wareHouse2: 750,
+    NextGen: 550,
+    SwiftStock: 750,
     wareHouse3: 950,
   },
   {
     name: "Dec",
-    wareHouse1: 450,
-    wareHouse2: 650,
+    NextGen: 450,
+    SwiftStock: 650,
     wareHouse3: 850,
   },
 ];
@@ -98,9 +98,8 @@ const WareHouseChart = () => {
         <CartesianGrid stroke="#eee" />
         <Tooltip />
         {/* <Legend /> */}
-        <Line dataKey="wareHouse1" stroke="#7E7E7E" />
-        <Line dataKey="wareHouse2" stroke="#363636" />
-        <Line dataKey="wareHouse3" stroke="#141414" />
+        <Line dataKey="NextGen" stroke="#7E7E7E" />
+        <Line dataKey="SwiftStock" stroke="#363636" />
       </LineChart>
     </ResponsiveContainer>
   );

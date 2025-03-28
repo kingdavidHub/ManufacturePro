@@ -127,6 +127,7 @@ export default function NewOrderPage() {
                         <SelectContent>
                           <SelectItem value="TABLE">TABLE</SelectItem>
                           <SelectItem value="CHAIR">CHAIR</SelectItem>
+                          <SelectItem value="DOOR">DOOR</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
