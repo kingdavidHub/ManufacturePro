@@ -143,6 +143,7 @@ const columns: ColumnDef<Order>[] = [
 export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // Move useState outside of onSubmit
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -202,7 +203,6 @@ export default function OrdersPage() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const [loading, setLoading] = useState(false); // Move this outside of the function
     setLoading(true);
     try {
       const res = await axios.post(PRODUCTION_API, values, {

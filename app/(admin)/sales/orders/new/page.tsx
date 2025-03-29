@@ -7,7 +7,7 @@ import { toast, Toaster } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import axios from "axios";
+import axios, { AxiosError } from "axios"; // Add AxiosError import
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ const formSchema = z.object({
   customerAddress: z.string().min(1, "Customer address is required"),
   product: z.string().min(1, "Product is required"),
   amount: z.number().min(1, "Amount must be greater than 0"),
-  warehouseName: z.string().min(1, "Warehouse is required"), 
+  warehouseName: z.string().min(1, "Warehouse is required"),
 });
 
 export default function NewOrderPage() {
@@ -50,7 +50,7 @@ export default function NewOrderPage() {
       customerAddress: "",
       product: "",
       amount: 0,
-      warehouseName: "", 
+      warehouseName: "",
     },
   });
 
@@ -69,33 +69,42 @@ export default function NewOrderPage() {
           router.push("/sales/orders/view");
         }, 1000); // Wait for toast to show
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      // Changed from 'any' to 'unknown'
       console.error("Order creation error:", error);
-      // Log the full error structure for debugging
-      console.log("Error response:", error.response);
 
-      // More robust error handling
-      if (error.response) {
-        if (error.response.status === 400) {
-          toast.error("Order Failed", {
-            description:
-              error.response.data?.message || "Failed to create order",
-          });
-        } else if (error.response.status === 500) {
-          toast.error("Server Error", {
-            description:
-              "The server encountered an error. Please try again later.",
-          });
+      // Type guard to check if this is an axios error
+      if (axios.isAxiosError(error)) {
+        console.log("Error response:", error.response);
+
+        // More robust error handling
+        if (error.response) {
+          if (error.response.status === 400) {
+            toast.error("Order Failed", {
+              description:
+                error.response.data?.message || "Failed to create order",
+            });
+          } else if (error.response.status === 500) {
+            toast.error("Server Error", {
+              description:
+                "The server encountered an error. Please try again later.",
+            });
+          } else {
+            toast.error("Order Failed", {
+              description:
+                error.response.data?.message || "An unexpected error occurred",
+            });
+          }
         } else {
-          toast.error("Order Failed", {
-            description:
-              error.response.data?.message || "An unexpected error occurred",
+          // Network error or other issues
+          toast.error("Connection Error", {
+            description: "Please check your connection and try again",
           });
         }
       } else {
-        // Network error or other issues
-        toast.error("Connection Error", {
-          description: "Please check your connection and try again",
+        // For non-axios errors
+        toast.error("Error", {
+          description: "Something went wrong. Please try again.",
         });
       }
     } finally {
