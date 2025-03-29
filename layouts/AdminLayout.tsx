@@ -47,7 +47,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       deleteCookie("role");
 
       // Redirect to login
-      router.push("/login");
+      router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);
     }

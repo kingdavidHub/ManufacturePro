@@ -34,7 +34,7 @@ export function middleware(request: NextRequest) {
   // For all other protected routes
   // Redirect to login if token doesn't exist OR role doesn't exist
   if (!token || !role) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   // Protect dashboard routes with role-specific access
