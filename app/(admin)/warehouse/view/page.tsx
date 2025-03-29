@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios, { AxiosError } from "axios"; // Add AxiosError import
 import { Toaster, toast } from "sonner";
 import { z } from "zod";
@@ -18,7 +18,7 @@ import {
 } from "@tanstack/react-table";
 import { Filter } from "lucide-react";
 import { getCookie } from "cookies-next";
-import { useRouter } from "next/router"; // Import useRouter
+import { useRouter } from "next/navigation"; // Use navigation, not router
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -233,6 +233,11 @@ export default function OrdersPage() {
   useEffect(() => {
     fetchOrders();
   }, [page]);
+
+  useEffect(() => {
+    // Any router operations that happen on component mount should be here
+    // For example, checking auth and redirecting if needed
+  }, []);
 
   const table = useReactTable({
     data: orders,
