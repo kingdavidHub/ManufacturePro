@@ -142,12 +142,32 @@ export default function NewOrderPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Customer Address</FormLabel>
+
+                      {/* <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select location" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="ILUPEJU">ILUPEJU</SelectItem>
+                          <SelectItem value="MOWE">MOWE</SelectItem>
+                          <SelectItem value="LEKKI">LEKKI</SelectItem>
+                        </SelectContent>
+                      </Select> */}
+
+                      {/* Remove this if it needs to be changed */}
                       <FormControl>
                         <Input
                           placeholder="Enter customer address"
                           {...field}
                         />
                       </FormControl>
+
+
                       <FormMessage />
                     </FormItem>
                   )}

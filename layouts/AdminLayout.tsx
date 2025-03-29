@@ -195,7 +195,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                       {role === "WAREHOUSE_MANAGER"
                         ? "Warehouse Manager"
                         : role === "SALES_REP"
-                        ? "Sales Rep"
+                        ? "Sales Rep" : role === "PRODUCTION_MANAGER" ? "Production Manager"
                         : "Admin"}
                     </p>
                   </div>
