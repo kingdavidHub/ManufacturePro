@@ -92,6 +92,9 @@ const transformOrderData = (orders: Order[]): ChartDataPoint[] => {
   // Convert to array format for recharts
   return months.map((month) => ({
     name: month,
+    NextGen: ordersByMonth[month].NextGen,
+    SwiftStock: ordersByMonth[month].SwiftStock,
+    PrimeStorage: ordersByMonth[month].PrimeStorage,
     ...ordersByMonth[month],
   }));
 };
