@@ -7,7 +7,6 @@ import {
   SidebarFooter,
   SidebarContent,
 } from "@/components/ui/sidebar";
-import { FaCartPlus } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import {
   Factory,
@@ -21,7 +20,6 @@ import {
   Truck,
   LogOut,
   User,
-  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 import { RoleProps } from "@/types";
@@ -39,11 +37,10 @@ const NavLink = ({
 }) => (
   <Link
     href={href}
-    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-violet-50 dark:hover:bg-violet-950/30 transition-all group"
+    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
   >
-    <Icon className="h-4 w-4 group-hover:text-violet-500 transition-colors" />
+    <Icon className="h-4 w-4" />
     <span className="flex-1">{label}</span>
-    <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
   </Link>
 );
 
@@ -92,10 +89,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             {/* Logo */}
             <div className="p-4 border-b">
               <Link href="/" className="flex items-center gap-2.5">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 text-white shadow-lg shadow-violet-500/20">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <Factory className="h-4 w-4" />
                 </div>
-                <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent font-bold text-lg">
+                <span className="font-bold text-lg">
                   ProTrack
                 </span>
               </Link>
@@ -109,7 +106,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
                   {role === "PRODUCTION_MANAGER" && (
                     <>
-                      <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                      <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                         Production
                       </div>
                       <NavLink href="/production/view" icon={Package} label="Products" />
@@ -121,7 +118,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
                   {role === "SALES_REP" && (
                     <>
-                      <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                      <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                         Sales
                       </div>
                       <NavLink href="/sales/orders/view" icon={ShoppingCart} label="Orders" />
@@ -131,14 +128,14 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
                   {role === "WAREHOUSE_MANAGER" && (
                     <>
-                      <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                      <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                         Warehouse
                       </div>
                       <NavLink href="/warehouse/new" icon={PlusCircle} label="New Warehouse" />
                     </>
                   )}
 
-                  <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/60">
+                  <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                     Operations
                   </div>
                   <NavLink href="/deliveries" icon={Truck} label="Deliveries" />
@@ -149,7 +146,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
             {/* Footer */}
             <SidebarFooter className="border-t p-3">
               <div className="flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 text-white text-xs font-bold">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">
                   <User className="h-4 w-4" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -158,7 +155,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="p-2 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all"
+                  className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
                   title="Logout"
                 >
                   <LogOut className="h-4 w-4" />
@@ -172,7 +169,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
       {/* Main Content */}
       <main className="w-full min-h-screen bg-muted/30">
         {/* Header */}
-        <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-xl border-b">
+        <header className="sticky top-0 z-40 bg-background border-b">
           <div className="flex items-center justify-between p-4">
             <div>
               <h2 className="text-lg font-semibold">
@@ -182,7 +179,7 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 Here&apos;s what&apos;s happening today
               </p>
             </div>
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 text-white text-sm font-bold shadow-lg shadow-violet-500/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-bold">
               DB
             </div>
           </div>

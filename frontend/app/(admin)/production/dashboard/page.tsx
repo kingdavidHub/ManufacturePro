@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import { getCookie } from "cookies-next";
 import { Toaster, toast } from "sonner";
 import OrdersChart from "@/components/OrdersChart";
@@ -50,7 +50,7 @@ const UniqueDashboard = () => {
     const fetchProductionData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`${PRODUCTION_API}`, {
+        const response = await api.get(`${PRODUCTION_API}`, {
           headers: {
             Authorization: `Bearer ${getCookie("token")}`,
           },
@@ -136,7 +136,7 @@ const UniqueDashboard = () => {
       <div className="w-full flex flex-col gap-6">
         <section>
           <div className="mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="flex justify-between gap-4 md:shadow-md p-4 bg-white rounded-md">
               <Card
                 newClass="hidden md:block"
                 title="Total Revenue"
@@ -156,6 +156,19 @@ const UniqueDashboard = () => {
               <div
                 className={`md:w-[25%] shadow-lg md:shadow-none rounded-sm md:rounded-none bg-[#FCFCFC] md:bg-white`}
               >
+                <div className=" p-4 flex flex-col-reverse md:flex-col items-center md:items-start justify-between gap-2 md:gap-1">
+                  <div className="flex flex-col-reverse md:flex-row items-center w-full justify-between gap-1 md:gap-0">
+                    <div className="text-2xl font-semibold md:flex">
+                      21/04<span className="hidden md:block">/2025</span>
+                    </div>
+                    <div className="text-gray-600">
+                      <CalendarDays />
+                    </div>
+                  </div>
+                  <h2 className="text-sm text-black font-bold md:font-normal md:text-gray-600 mt-2 text-center md:text-right">
+                    Next Shipment
+                  </h2>
+                </div>
                 <div className=" p-4 flex flex-col-reverse md:flex-col items-center md:items-start justify-between gap-2 md:gap-1">
                   <div className="flex flex-col-reverse md:flex-row items-center w-full justify-between gap-1 md:gap-0">
                     <div className="text-2xl font-semibold md:flex">
@@ -198,8 +211,7 @@ const UniqueDashboard = () => {
 
 
         {/* Updated Product Stock section */}
-        <section>
-          <div className="rounded-xl border bg-background p-6">
+        <section>            <div className="py-4 px-4 rounded-xl border bg-background">
             <h1 className="font-bold mb-2">Product Stock</h1>
 
             {isLoading ? (
@@ -235,8 +247,7 @@ const UniqueDashboard = () => {
           </div>
         </section>
 
-        <section className="md:hidden">
-          <div className="py-4 px-2 rounded-sm shadow-md items-center">
+        <section className="md:hidden">            <div className="py-4 px-4 rounded-sm shadow-md items-center">
             {/* <WareHouseBarChart /> */}
           </div>
         </section>
@@ -277,14 +288,14 @@ const Card = ({
 }) => {
   return (
     <div
-      className={`${newClass} md:w-[25%] rounded-xl border bg-background p-4 transition-all hover:shadow-md hover:-translate-y-0.5`}
+      className={`${newClass} md:w-[25%]`}
     >
       <div className="flex flex-col-reverse md:flex-col items-center md:items-start justify-between gap-2">
         <div className="flex flex-col-reverse md:flex-row items-center w-full justify-between gap-1">
-          <div className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">{value}</div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400">{icon}</div>
+          <div className="text-2xl font-semibold md:flex">{value}</div>
+          <div className="text-gray-600">{icon}</div>
         </div>
-        <h2 className="text-xs font-medium text-muted-foreground mt-1 text-center md:text-left w-full">
+        <h2 className="text-sm text-black font-bold md:font-normal md:text-gray-600 mt-2 text-center md:text-right">
           {title}
         </h2>
       </div>

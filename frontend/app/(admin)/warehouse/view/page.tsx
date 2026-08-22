@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import api from "@/lib/api";
 import axios, { AxiosError } from "axios"; // Add AxiosError import
 import { Toaster, toast } from "sonner";
 import { z } from "zod";
@@ -122,7 +123,7 @@ const columns: ColumnDef<Order>[] = [
           <Button
             variant="secondary"
             size="sm"
-            className="h-8 bg-gradient-to-r from-violet-500 to-indigo-600 text-white hover:from-violet-600 hover:to-indigo-700 shadow-sm"
+            className="h-8"
           >
             Request
           </Button>
@@ -130,7 +131,7 @@ const columns: ColumnDef<Order>[] = [
             onClick={() => handleCancelOrder(order.id)}
             variant="secondary"
             size="sm"
-            className="h-8 bg-gradient-to-r from-violet-500 to-indigo-600 text-white hover:from-violet-600 hover:to-indigo-700 shadow-sm"
+            className="h-8"
           >
             Cancel
           </Button>
@@ -155,7 +156,7 @@ export default function OrdersPage() {
   const fetchOrders = async () => {
     setIsLoading(true);
     try {
-      const result = await axios.get(`${PRODUCTION_API}?page=${page}`, {
+      const result = await api.get(`${PRODUCTION_API}?page=${page}`, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
@@ -178,7 +179,7 @@ export default function OrdersPage() {
 
   const handleCancelOrder = async (orderId: string) => {
     try {
-      await axios.delete(`${SALES_API}/${orderId}`, {
+      await api.delete(`${SALES_API}/${orderId}`, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
@@ -205,7 +206,7 @@ export default function OrdersPage() {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     try {
-      const res = await axios.post(PRODUCTION_API, values, {
+      const res = await api.post(PRODUCTION_API, values, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },

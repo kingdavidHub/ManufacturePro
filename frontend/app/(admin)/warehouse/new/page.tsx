@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import axios from "axios";
+import api from "@/lib/api";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -39,7 +39,7 @@ export default function NewWarehousePage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await axios.post(
+      const response = await api.post(
         WAREHOUSE_API,
         values,
         {
@@ -122,7 +122,7 @@ export default function NewWarehousePage() {
               >
                 Cancel
               </Button>
-              <Button type="submit" className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-lg shadow-violet-500/25">Create Warehouse</Button>
+              <Button type="submit">Create Warehouse</Button>
             </div>
           </form>
         </Form>

@@ -7,6 +7,7 @@ import productionRoutes from './routes/production.routes';
 import warehouseRoutes from './routes/warehouse.routes';
 import orderRoutes from './routes/order.routes';
 import errorHandler from './middlewares/errorHandler';
+import { apiLimiter, authLimiter } from './middlewares/rateLimiter';
 import responseHandler from './utils/responseHandler';
 
 dotenv.config();
@@ -28,10 +29,10 @@ app.get('/', (_req: Request, res: Response) => {
   });
 });
 
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/productions', productionRoutes);
-app.use('/api/v1/warehouses', warehouseRoutes);
-app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/auth', authLimiter, authRoutes);
+app.use('/api/v1/productions', apiLimiter, productionRoutes);
+app.use('/api/v1/warehouses', apiLimiter, warehouseRoutes);
+app.use('/api/v1/orders', apiLimiter, orderRoutes);
 
 app.use(errorHandler);
 

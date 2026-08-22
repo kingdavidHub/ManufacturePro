@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import { Toaster, toast } from "sonner";
 import {
   type ColumnDef,
@@ -76,7 +76,7 @@ export default function OrdersPage() {
     setIsLoading(true);
     try {
       const statusParam = statusFilter ? `&status=${statusFilter}` : "";
-      const result = await axios.get(
+      const result = await api.get(
         `${SALES_API}?page=${page}${statusParam}`,
         {
           headers: { Authorization: `Bearer ${getCookie("token")}` },
@@ -102,7 +102,7 @@ export default function OrdersPage() {
 
   const updateOrderStatus = async (orderId: string) => {
     try {
-      const response = await axios.patch(
+      const response = await api.patch(
         `${SALES_API}/${orderId}/status`,
         { status: "SUCCESSFUL" },
         {

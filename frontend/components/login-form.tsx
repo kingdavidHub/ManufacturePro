@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
+import api from "@/lib/api";
 import axios, { AxiosError } from "axios"; // Import AxiosError
 import { useState } from "react";
 import { PacmanLoader } from "react-spinners";
@@ -42,7 +43,7 @@ export function LoginForm({
     setLoading(true);
 
     try {
-      const result = await axios.post(
+      const result = await api.post(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
         { email, password },
         { headers: { "Content-Type": "application/json" } }

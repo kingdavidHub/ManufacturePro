@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import axios from "axios";
+import api from "@/lib/api";
 import { toast } from "sonner";
 import { useState } from "react";
 import { getCookie } from "cookies-next";
@@ -79,7 +79,7 @@ const Distribute = () => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const res = await axios.post(`${PRODUCTION_API}/distribute`, values, {
+      const res = await api.post(`${PRODUCTION_API}/distribute`, values, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
@@ -233,7 +233,7 @@ const Distribute = () => {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading} className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-lg shadow-violet-500/25">
+              <Button type="submit" disabled={loading}>
                 {loading ? "Distributing..." : "Distribute Products"}
               </Button>
             </div>

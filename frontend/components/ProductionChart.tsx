@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import { getCookie } from "cookies-next";
 import {
   ResponsiveContainer,
@@ -31,7 +31,7 @@ const ProductionChart = () => {
     const fetchProductionData = async () => {
       try {
         setIsLoading(true);
-        const result = await axios.get(`${PRODUCTION_API}`, {
+        const result = await api.get(`${PRODUCTION_API}`, {
           headers: { Authorization: `Bearer ${getCookie("token")}` },
         });
 

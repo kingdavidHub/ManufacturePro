@@ -7,6 +7,7 @@ import { toast, Toaster } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import api from "@/lib/api";
 import axios, { AxiosError } from "axios"; // Add AxiosError import
 
 import { cn } from "@/lib/utils";
@@ -57,7 +58,7 @@ export default function NewOrderPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
     try {
-      const response = await axios.post(`${SALES_API}`, values, {
+      const response = await api.post(`${SALES_API}`, values, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
@@ -260,7 +261,7 @@ export default function NewOrderPage() {
               >
                 Discard
               </Button>
-              <Button type="submit" disabled={isSubmitting} className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-lg shadow-violet-500/25">
+              <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import api from "@/lib/api";
 import axios from "axios";
 import { Toaster, toast } from "sonner";
 import {
@@ -80,7 +81,7 @@ export default function ProductionPage() {
       // Log the request being made (helpful for debugging)
       console.log(`Making request to ${PRODUCTION_API} with role ${userRole}`);
 
-      const result = await axios.get(PRODUCTION_API, {
+      const result = await api.get(PRODUCTION_API, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",

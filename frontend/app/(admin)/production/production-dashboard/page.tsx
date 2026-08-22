@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react"; // Added useCallback
-import axios from "axios";
+import api from "@/lib/api";
 import { Toaster, toast } from "sonner";
 import {
   ColumnDef,
@@ -114,7 +114,7 @@ export default function ProductionDashboardPage() {
   const fetchDashboardData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const result = await axios.get(`${PRODUCTION_API}/dashboard`, {
+      const result = await api.get(`${PRODUCTION_API}/dashboard`, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },

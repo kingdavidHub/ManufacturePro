@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "@/lib/api";
 import { getCookie } from "cookies-next";
 import {
   ResponsiveContainer,
@@ -108,7 +108,7 @@ const OrdersChart = () => {
     const fetchOrders = async () => {
       try {
         setIsLoading(true);
-        const result = await axios.get(`${SALES_API}?limit=100`, {
+        const result = await api.get(`${SALES_API}?limit=100`, {
           headers: { Authorization: `Bearer ${getCookie("token")}` },
         });
 

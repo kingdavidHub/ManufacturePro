@@ -33,6 +33,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getCookie } from "cookies-next";
+import api from "@/lib/api";
 import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import { ClipLoader, ScaleLoader } from "react-spinners";
@@ -70,7 +71,7 @@ export default function NewProductPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       setLoading(true);
-      const res = await axios.post(PRODUCTION_API, values, {
+      const res = await api.post(PRODUCTION_API, values, {
         headers: {
           Authorization: `Bearer ${getCookie("token")}`,
         },
@@ -182,7 +183,7 @@ export default function NewProductPage() {
               >
                 Cancel
               </Button>
-              <Button type="submit" className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-lg shadow-violet-500/25">Create Products</Button>
+              <Button type="submit">Create Products</Button>
             </div>
           </form>
         </Form>

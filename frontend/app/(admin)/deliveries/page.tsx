@@ -115,7 +115,7 @@ const columns: ColumnDef<Delivery>[] = [
         <Button
           variant="secondary"
           size="sm"
-          className="h-8 bg-gradient-to-r from-violet-500 to-indigo-600 text-white hover:from-violet-600 hover:to-indigo-700 shadow-sm"
+          className="h-8"
         >
           Confirm
         </Button>
