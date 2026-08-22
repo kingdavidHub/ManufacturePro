@@ -1,0 +1,1 @@
+{"version":3,"file":"responseHandler.d.ts","sourceRoot":"","sources":["../../src/utils/responseHandler.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AACnC,OAAO,QAAQ,MAAM,YAAY,CAAC;AAElC,QAAA,MAAM,eAAe;mBACJ,QAAQ,cAAc,MAAM,QAAQ,GAAG;iBAMzC,QAAQ,SAAS,QAAQ;CAMvC,CAAC;AAEF,eAAe,eAAe,CAAC"}
