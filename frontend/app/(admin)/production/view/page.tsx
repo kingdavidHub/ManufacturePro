@@ -29,6 +29,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PRODUCTION_API } from "@/config";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Production {
   product_name: string;
@@ -199,8 +200,25 @@ export default function ProductionPage() {
       {/* Table section */}
       <div className="p-4">
         {isLoading ? (
-          <div className="h-24 flex items-center justify-center">
-            <div>Loading production data...</div>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {columns.map((col, i) => (
+                    <TableHead key={i}><Skeleton className="h-4 w-20" /></TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[1, 2, 3].map((i) => (
+                  <TableRow key={i}>
+                    {columns.map((_, j) => (
+                      <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         ) : (
           <div className="rounded-md border">

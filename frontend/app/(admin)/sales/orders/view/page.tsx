@@ -34,6 +34,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { SALES_API } from "@/config";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Order {
   id: string;
@@ -249,8 +250,25 @@ export default function OrdersPage() {
 
       <div className="p-4">
         {isLoading ? (
-          <div className="h-24 flex items-center justify-center">
-            Loading orders...
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {Array.from({ length: 9 }).map((_, i) => (
+                    <TableHead key={i}><Skeleton className="h-4 w-16" /></TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <TableRow key={i}>
+                    {Array.from({ length: 9 }).map((_, j) => (
+                      <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         ) : (
           <div className="rounded-md border">

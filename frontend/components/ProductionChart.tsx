@@ -14,6 +14,7 @@ import {
   Legend,
 } from "recharts";
 import { PRODUCTION_API } from "@/config";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProductionItem {
   product_name: string;
@@ -74,8 +75,9 @@ const ProductionChart = () => {
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center py-8">
-        Loading production analytics...
+      <div className="w-full">
+        <Skeleton className="h-6 w-48 mb-4" />
+        <Skeleton className="h-[400px] w-full rounded-lg" />
       </div>
     );
   if (error)

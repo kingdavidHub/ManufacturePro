@@ -9,6 +9,7 @@ import WareHouseChart from "@/components/WareHouseChart";
 import WareHouseBarChart from "@/components/WareHouseBarChart";
 import { CalendarDays, Circle, Folder, Truck } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import { SALES_API } from "@/config";
 
 interface Warehouse {
@@ -222,8 +223,17 @@ const UniqueDashboard = () => {
             <h1 className="font-bold mb-2">Orders</h1>
 
             {isLoading ? (
-              <div className="flex items-center justify-center py-4">
-                Loading orders data...
+              <div className="flex flex-col gap-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="w-full space-y-2">
+                    <div className="flex justify-between">
+                      <Skeleton className="h-4 w-24" />
+                      <Skeleton className="h-4 w-12" />
+                      <Skeleton className="h-4 w-8" />
+                    </div>
+                    <Skeleton className="h-3 w-full rounded-full" />
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="flex flex-col gap-4">

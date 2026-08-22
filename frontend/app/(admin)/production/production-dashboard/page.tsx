@@ -35,6 +35,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PRODUCTION_API } from "@/config";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Define types for the API response
 interface StatusSummary {
@@ -202,8 +203,25 @@ export default function ProductionDashboardPage() {
         </div>
 
         {isLoading ? (
-          <div className="h-24 flex items-center justify-center">
-            <div>Loading dashboard data...</div>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  {columns.map((col, i) => (
+                    <TableHead key={i}><Skeleton className="h-4 w-20" /></TableHead>
+                  ))}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[1, 2, 3, 4].map((i) => (
+                  <TableRow key={i}>
+                    {columns.map((_, j) => (
+                      <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         ) : (
           <>

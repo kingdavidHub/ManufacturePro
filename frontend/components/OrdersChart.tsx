@@ -14,6 +14,7 @@ import {
   Legend,
 } from "recharts";
 import { SALES_API } from "@/config";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Order {
   id: string;
@@ -144,7 +145,13 @@ const OrdersChart = () => {
     fetchOrders();
   }, []);
 
-  if (isLoading) return <div>Loading order analytics...</div>;
+  if (isLoading)
+    return (
+      <div className="w-full">
+        <Skeleton className="h-6 w-40 mb-4" />
+        <Skeleton className="h-[400px] w-full rounded-lg" />
+      </div>
+    );
   if (error) return <div>Error: {error}</div>;
 
   return (
