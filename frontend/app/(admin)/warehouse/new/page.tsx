@@ -122,7 +122,7 @@ export default function NewWarehousePage() {
               >
                 Cancel
               </Button>
-              <Button type="submit">Create Warehouse</Button>
+              <Button type="submit" className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-lg shadow-violet-500/25">Create Warehouse</Button>
             </div>
           </form>
         </Form>

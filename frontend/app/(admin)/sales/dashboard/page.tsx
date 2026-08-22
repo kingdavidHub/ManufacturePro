@@ -147,7 +147,7 @@ const UniqueDashboard = () => {
       <div className="w-full flex flex-col gap-6">
         <section>
           <div className="mx-auto">
-            <div className="flex justify-between gap-4 md:shadow-md p-4 bg-white rounded-md">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Card
                 newClass="hidden md:block"
                 title="Total Revenue"
@@ -181,7 +181,7 @@ const UniqueDashboard = () => {
           </div>
         </section>
         <section className="hidden md:block">
-          <div className="flex py-4 px-2 rounded-sm shadow-md items-center">
+          <div className="flex py-4 px-4 rounded-xl border bg-background items-center">
             <OrdersChart />
             <div className="flex flex-col gap-4 ml-4">
               <WarehouseContent
@@ -205,7 +205,7 @@ const UniqueDashboard = () => {
 
         {/* Stock Levels section with dynamic data */}
         <section>
-          <div className="py-6 px-4 rounded-sm shadow-md items-center">
+          <div className="rounded-xl border bg-background p-6">
             <h1 className="font-bold mb-2">Orders</h1>
 
             {isLoading ? (
@@ -283,14 +283,14 @@ const Card = ({
 }) => {
   return (
     <div
-      className={`md:w-[25%] ${newClass} shadow-lg md:shadow-none rounded-sm md:rounded-none bg-[#FCFCFC] md:bg-white `}
+      className={`${newClass} md:w-[25%] rounded-xl border bg-background p-4 transition-all hover:shadow-md hover:-translate-y-0.5`}
     >
-      <div className="md:border-r border-gray-400 p-4 flex flex-col-reverse md:flex-col items-center md:items-start justify-between gap-2 md:gap-1 ">
-        <div className="flex flex-col-reverse md:flex-row items-center w-full justify-between gap-1 md:gap-0">
-          <div className="text-2xl font-semibold">{value}</div>
-          <div className="text-gray-600">{icon}</div>
+      <div className="flex flex-col-reverse md:flex-col items-center md:items-start justify-between gap-2">
+        <div className="flex flex-col-reverse md:flex-row items-center w-full justify-between gap-1">
+          <div className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">{value}</div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400">{icon}</div>
         </div>
-        <h2 className="text-sm text-black font-bold md:font-normal md:text-gray-600 mt-2 text-center md:text-right">
+        <h2 className="text-xs font-medium text-muted-foreground mt-1 text-center md:text-left w-full">
           {title}
         </h2>
       </div>

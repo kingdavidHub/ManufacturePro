@@ -122,7 +122,7 @@ const columns: ColumnDef<Order>[] = [
           <Button
             variant="secondary"
             size="sm"
-            className="h-8 bg-gray-800 text-white hover:bg-gray-700"
+            className="h-8 bg-gradient-to-r from-violet-500 to-indigo-600 text-white hover:from-violet-600 hover:to-indigo-700 shadow-sm"
           >
             Request
           </Button>
@@ -130,7 +130,7 @@ const columns: ColumnDef<Order>[] = [
             onClick={() => handleCancelOrder(order.id)}
             variant="secondary"
             size="sm"
-            className="h-8 bg-gray-800 text-white hover:bg-gray-700"
+            className="h-8 bg-gradient-to-r from-violet-500 to-indigo-600 text-white hover:from-violet-600 hover:to-indigo-700 shadow-sm"
           >
             Cancel
           </Button>

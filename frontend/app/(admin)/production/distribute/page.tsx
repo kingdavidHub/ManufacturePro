@@ -233,7 +233,7 @@ const Distribute = () => {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" disabled={loading} className="bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-lg shadow-violet-500/25">
                 {loading ? "Distributing..." : "Distribute Products"}
               </Button>
             </div>

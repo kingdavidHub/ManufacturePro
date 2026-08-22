@@ -125,7 +125,7 @@ export function LoginForm({
             <p className="text-red-500 text-sm">Password is required</p>
           )}
         </div>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-lg shadow-violet-500/25">
           {loading ? <PacmanLoader color="#fff" size={10} /> : "Login"}
         </Button>
         <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border"></div>
