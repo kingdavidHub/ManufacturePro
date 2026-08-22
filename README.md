@@ -392,6 +392,6 @@ Contributions are welcome! Please follow these steps:
 
 <div align="center">
 
-**Built with ❤️ as a portfolio project**
+**Built with ❤️ Happy Grinding**
 
 </div>
