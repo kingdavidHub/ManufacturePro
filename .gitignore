@@ -1,0 +1,48 @@
+# HIGH LEVEL BASED AGENETIC IGONRE PRODUCT ID
+.freebuff
+
+# =========================
+# AI Agent / Assistant Local Artifacts
+# =========================
+
+# Generic agent workspaces
+.agents/
+.agent/
+.ai/
+.llm/
+
+# Copilot / prompt artifacts
+.copilot/
+.copilot-chat/
+.github/copilot/
+.github/prompts/
+
+# Local memory and scratch contexts
+memories/
+.memories/
+.scratch/
+
+# Common assistant/tooling folders
+.aider*
+.claude/
+.continue/
+.cursor/
+.roo/
+.windsurf/
+.openai/
+.gemini/
+
+# VS Code local prompt/agent command folders
+.vscode/prompts/
+.vscode/agents/
+.vscode/commands/
+
+# Command and agent workflow artifacts
+.commands/
+commands/
+*.command
+*.commands
+*.prompt.md
+*.agent.md
+*.instructions.md
+*.copilotmd
